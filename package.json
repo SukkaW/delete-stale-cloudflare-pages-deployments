@@ -1,0 +1,32 @@
+{
+  "name": "delete-stale-cloudflare-pages-deployments",
+  "version": "0.0.0",
+  "description": "",
+  "repository": "https://github.com/sukkaw/delete-stale-cloudflare-pages-deployments",
+  "main": "index.js",
+  "scripts": {
+    "build": "bunchee --minify"
+  },
+  "keywords": [],
+  "author": "Sukka <https://skk.moe>",
+  "license": "MIT",
+  "packageManager": "pnpm@10.6.2",
+  "devDependencies": {
+    "@swc-node/register": "^1.10.9",
+    "@swc/core": "^1.11.8",
+    "bunchee": "^6.4.0",
+    "eslint": "^9.22.0",
+    "eslint-config-sukka": "^6.17.0",
+    "eslint-formatter-sukka": "^6.17.0",
+    "typescript": "^5.8.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@swc/core"
+    ]
+  },
+  "files": [
+    "dist"
+  ],
+  "bin": "./dist/bin/index.js"
+}
