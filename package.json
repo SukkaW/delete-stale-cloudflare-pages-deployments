@@ -1,6 +1,6 @@
 {
   "name": "delete-stale-cloudflare-pages-deployments",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "",
   "repository": "https://github.com/sukkaw/delete-stale-cloudflare-pages-deployments",
   "main": "./dist/cjs/index.cjs",
