@@ -3,13 +3,28 @@
   "version": "0.1.0",
   "description": "",
   "repository": "https://github.com/sukkaw/delete-stale-cloudflare-pages-deployments",
-  "main": "index.js",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/es/index.mjs",
+  "types": "./dist/cjs/index.d.ts",
   "bin": "./dist/bin/index.js",
   "files": [
     "dist"
   ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/es/index.d.mts",
+        "default": "./dist/es/index.mjs"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.cts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
   "scripts": {
-    "build": "bunchee --minify",
+    "build": "bunchee --clean --minify --no-sourcemap",
     "lint": "eslint --format=sukka",
     "node": "node -r @swc-node/register"
   },
