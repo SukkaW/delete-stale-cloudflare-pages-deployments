@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "description": "",
   "repository": "https://github.com/sukkaw/delete-stale-cloudflare-pages-deployments",
-  "main": "./dist/cjs/index.js",
+  "main": "./dist/cjs/index.cjs",
   "module": "./dist/es/index.mjs",
-  "types": "./dist/cjs/index.d.ts",
-  "bin": "./dist/bin/index.js",
+  "types": "./dist/cjs/index.d.cts",
+  "bin": "./dist/bin/index.cjs",
   "files": [
     "dist"
   ],
@@ -26,22 +26,26 @@
   "scripts": {
     "build": "bunchee --clean --minify --no-sourcemap",
     "lint": "eslint --format=sukka",
-    "node": "node -r @swc-node/register"
+    "node": "node -r @swc-node/register",
+    "prerelease": "pnpm run build && pnpm run lint",
+    "release": "bumpp -r --all --commit \"release: %s\" --tag \"%s\""
   },
   "keywords": [],
   "author": "Sukka <https://skk.moe>",
   "license": "MIT",
   "dependencies": {
-    "cloudflare": "^4.1.0"
+    "cloudflare": "^4.1.0",
+    "consola": "^3.4.0"
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^13.1.0",
     "@eslint-sukka/node": "^6.17.0",
     "@swc-node/register": "^1.10.9",
     "@swc/core": "^1.11.8",
+    "@types/node": "^22.13.10",
+    "bumpp": "^10.1.0",
     "bunchee": "^6.4.0",
     "commander": "^13.1.0",
-    "consola": "^3.4.0",
     "date-fns": "^4.1.0",
     "eslint": "^9.22.0",
     "eslint-config-sukka": "^6.17.0",
