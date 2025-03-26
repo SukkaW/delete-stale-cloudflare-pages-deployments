@@ -92,7 +92,7 @@ export async function deleteStaleCloudflarePagesDeployments({
       const key = `${dateStr} ${deployment.environment} ${url} (${status})`;
       const project_name = magenta('[' + deployment.project_name + ']');
 
-      if (!deployment.is_skipped || isSuccess) {
+      if (deployment.is_skipped || isSuccess) {
         if (deployment.aliases != null && deployment.aliases.length > 0) {
           logger.info(`${project_name} ${gray(`(skip active deployments ${deployment.aliases.join(', ')})`)} ${key}`);
           continue;
