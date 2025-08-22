@@ -38,7 +38,7 @@ export async function deleteStaleCloudflarePagesDeployments({
   });
 
   const logger = createConsola({
-    level: quiet ? -999 : +999
+    level: quiet ? -999 : 999
   });
 
   const { red, blue, green, yellow, magenta, gray, underline } = colors;
