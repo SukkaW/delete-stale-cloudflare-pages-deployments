@@ -78,7 +78,7 @@ export async function deleteStaleCloudflarePagesDeployments({
       throw new TypeError('Expecting "deployments.result_info.total_pages"!');
     }
 
-    do {
+    while (true) {
       for (const deployment of deployments.result) {
         if (!deployment.id) {
           logger.warn('Skipping deployment without id:', deployment);
@@ -169,6 +169,6 @@ export async function deleteStaleCloudflarePagesDeployments({
       } else {
         break;
       }
-    } while (true);
+    };
   }
 }
