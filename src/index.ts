@@ -90,9 +90,11 @@ export async function deleteStaleCloudflarePagesDeployments({
         }
 
         const isSuccess = deployment.latest_stage?.status === 'success';
+        const isFailed = deployment.latest_stage?.status === 'failure';
         if (isSuccess) {
           successCount++;
-        } else {
+        }
+        if (isFailed) {
           failedCount++;
         }
 
@@ -107,27 +109,28 @@ export async function deleteStaleCloudflarePagesDeployments({
               ? red('failure')
               : yellow(deployment.latest_stage?.status || 'unknown');
 
-        const url = deployment.latest_stage?.status === 'failure'
-          ? gray(deployment.url || 'https://unknown')
-          : underline(deployment.url || 'https://unknown');
+        const urlColorFn = isFailed ? gray : underline;
+
+        const url = urlColorFn(deployment.url || 'https://unknown');
 
         const key = `${dateStr} ${deployment.environment} ${url} (${status})`;
         const project_name = magenta('[' + deployment.project_name + ']');
 
-        if (deployment.is_skipped || isSuccess) {
-          if (deployment.aliases != null && deployment.aliases.length > 0) {
-            logger.info(`${project_name} ${gray(`(skip active deployments ${deployment.aliases.join(', ')})`)} ${key}`);
-            continue;
-          }
-          if (successCount <= retainSuccessCount) {
-            logger.info(`${project_name} ${gray(`(skip first ${retainSuccessCount} succeed)`)} ${key}`);
-            continue;
-          }
-          if ((startTimtstamp - date.getTime()) <= retainRencentDays * 24 * 60 * 60 * 1000) {
-            logger.info(`${project_name} ${gray(`(skip recent ${retainRencentDays}d)`)} ${key}`);
-            continue;
-          }
+        if (deployment.aliases != null && deployment.aliases.length > 0) {
+          logger.info(`${project_name} ${gray(`(skip active deployments ${deployment.aliases.join(', ')})`)} ${key}`);
+          continue;
         }
+
+        if (startTimtstamp - date.getTime() <= retainRencentDays * 24 * 60 * 60 * 1000) {
+          logger.info(`${project_name} ${gray(`(skip recent ${retainRencentDays}d)`)} ${key}`);
+          continue;
+        }
+
+        if (isSuccess && successCount <= retainSuccessCount) {
+          logger.info(`${project_name} ${gray(`(skip first ${retainSuccessCount} succeed)`)} ${key}`);
+          continue;
+        }
+
         if (!isSuccess && failedCount <= retainFailedCount) {
           logger.info(`${project_name} ${gray(`(skip first ${retainFailedCount} failed)`)} ${key}`);
           continue;
