@@ -3,6 +3,8 @@ import process from 'node:process';
 import { createConsola } from 'consola';
 import { formatDate } from 'date-fns/format';
 import { colors } from 'consola/utils';
+import { V4PagePaginationArray } from 'cloudflare/pagination';
+import type { Deployment } from 'cloudflare/src/resources/pages/index.js';
 
 export interface DeleteStaleCloudflarePagesDeploymentsOptions {
   quiet?: boolean,
@@ -19,6 +21,8 @@ export interface DeleteStaleCloudflarePagesDeploymentsOptions {
 
   cloudflareAccountId: string
 }
+
+class DeploymentsMultiPage extends V4PagePaginationArray<Deployment> {}
 
 export async function deleteStaleCloudflarePagesDeployments({
   quiet = false,
@@ -59,9 +63,13 @@ export async function deleteStaleCloudflarePagesDeployments({
     let successCount = 0;
     let failedCount = 0;
 
-    for await (const deployment of await client.pages.projects.deployments.list(project.name, {
-      account_id
-    })) {
+    // TODO: https://github.com/cloudflare/cloudflare-typescript/issues/2680
+    // Before that is fixed, manually fire request with proper type to get all deployments
+    for await (const deployment of await client.getAPIList(
+      `/accounts/${account_id}/pages/projects/${project.name}/deployments`,
+      DeploymentsMultiPage,
+      {}
+    )) {
       if (!deployment.id) {
         logger.warn('Skipping deployment without id:', deployment);
         continue;
