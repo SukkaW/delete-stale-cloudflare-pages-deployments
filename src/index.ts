@@ -4,7 +4,6 @@ import { createConsola } from 'consola';
 import { formatDate } from 'date-fns/format';
 import { colors } from 'consola/utils';
 import { V4PagePaginationArray } from 'cloudflare/pagination';
-import type { Deployment } from 'cloudflare/src/resources/pages/index.js';
 
 export interface DeleteStaleCloudflarePagesDeploymentsOptions {
   quiet?: boolean,
@@ -22,7 +21,9 @@ export interface DeleteStaleCloudflarePagesDeploymentsOptions {
   cloudflareAccountId: string
 }
 
-class DeploymentsMultiPage extends V4PagePaginationArray<Deployment> { }
+class DeploymentsMultiPage extends V4PagePaginationArray<Cloudflare.Pages.Deployment> { }
+
+class ProjectMultiPage extends V4PagePaginationArray<Cloudflare.Pages.Project> { }
 
 export async function deleteStaleCloudflarePagesDeployments({
   quiet = false,
@@ -50,9 +51,13 @@ export async function deleteStaleCloudflarePagesDeployments({
   const start = new Date();
   const startTimtstamp = start.getTime();
 
-  for await (const project of await client.pages.projects.list({
-    account_id
-  }) as AsyncIterable<Cloudflare.Pages.Project>) {
+  // TODO: https://github.com/cloudflare/cloudflare-typescript/issues/2680
+  // Before that is fixed, manually fire request with proper type to get all deployments
+  for await (const project of await client.getAPIList(
+    `/accounts/${account_id}/pages/projects`,
+    ProjectMultiPage,
+    { query: { page: 1 } }
+  )) {
     if (!project.name) {
       logger.warn('Skipping project without name:', project.id);
       continue;
@@ -68,7 +73,7 @@ export async function deleteStaleCloudflarePagesDeployments({
     let deployments = await client.getAPIList(
       `/accounts/${account_id}/pages/projects/${project.name}/deployments`,
       DeploymentsMultiPage,
-      { query: { page: 1 } }
+      { query: { page: 1 } } // this is required to get the nextPageInfo right
     );
 
     let totalPages;
