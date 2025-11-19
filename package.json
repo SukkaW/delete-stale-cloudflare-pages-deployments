@@ -35,7 +35,8 @@
   "license": "MIT",
   "dependencies": {
     "cloudflare": "^5.2.0",
-    "consola": "^3.4.2"
+    "consola": "^3.4.2",
+    "foxts": "^5.0.0"
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^13.1.0",
