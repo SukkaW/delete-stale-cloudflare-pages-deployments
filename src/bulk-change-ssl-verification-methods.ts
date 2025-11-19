@@ -3,6 +3,7 @@ import { createConsola } from 'consola';
 import { colors } from 'consola/utils';
 
 import type { ValidationMethod } from 'cloudflare/resources/ssl/certificate-packs';
+import { wait } from 'foxts/wait';
 
 export interface BulkChangeSSLVerificationMethodsOptions {
   quiet?: boolean,
@@ -65,6 +66,9 @@ export async function bulkChangeSSLVerificationMethods({
         { zone_id, validation_method: sslVerificationMethod }
       );
       logger.success(colors.magenta(hostname), colors.green('changed verification method'), 'to', colors.green(resp.validation_method || 'unknown'), resp.status);
+      logger.info(colors.gray('wait'), 'for 10 seconds to avoid rate limiting');
+      // eslint-disable-next-line no-await-in-loop -- avoid rate limiting
+      await wait(10000); // wait 10 seconds between requests to avoid rate limiting
     }
   }
 };
