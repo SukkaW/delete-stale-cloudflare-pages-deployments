@@ -3,7 +3,8 @@ import { createConsola } from 'consola';
 import { colors } from 'consola/utils';
 
 import type { ValidationMethod } from 'cloudflare/resources/ssl/certificate-packs';
-import { wait } from 'foxts/wait';
+
+import { newQueue } from '@henrygd/queue/rl';
 
 export interface BulkChangeSSLVerificationMethodsOptions {
   quiet?: boolean,
@@ -40,6 +41,8 @@ export async function bulkChangeSSLVerificationMethods({
     zone_id
   });
 
+  const editQueue = newQueue(1, 5, 60 * 1000); // only one can happen at a time, 5 per minutes
+
   for (const verification of verifications) {
     // @ts-expect-error -- hostname exists
     const hostname = verification.hostname;
@@ -60,15 +63,14 @@ export async function bulkChangeSSLVerificationMethods({
       logger.info(colors.blue(hostname), colors.blue('dry-run'), 'would change verification method from', colors.yellow(verification.validation_method || 'unknown'), 'to', colors.green(sslVerificationMethod));
     } else {
       logger.start(colors.magenta(hostname), colors.blue('changing verification method'), 'from', colors.yellow(verification.validation_method || 'unknown'), 'to', colors.green(sslVerificationMethod));
+      const { cert_pack_uuid } = verification;
       // eslint-disable-next-line no-await-in-loop -- update in sequence
-      const resp = await client.ssl.verification.edit(
-        verification.cert_pack_uuid,
+      const resp = await editQueue.add(() => client.ssl.verification.edit(
+        cert_pack_uuid,
         { zone_id, validation_method: sslVerificationMethod }
-      );
+      ));
       logger.success(colors.magenta(hostname), colors.green('changed verification method'), 'to', colors.green(resp.validation_method || 'unknown'), resp.status);
       logger.info(colors.gray('wait'), 'for 10 seconds to avoid rate limiting');
-      // eslint-disable-next-line no-await-in-loop -- avoid rate limiting
-      await wait(10000); // wait 10 seconds between requests to avoid rate limiting
     }
   }
 };

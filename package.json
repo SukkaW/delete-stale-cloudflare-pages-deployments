@@ -34,6 +34,7 @@
   "author": "Sukka <https://skk.moe>",
   "license": "MIT",
   "dependencies": {
+    "@henrygd/queue": "^1.2.0",
     "cloudflare": "^5.2.0",
     "consola": "^3.4.2",
     "foxts": "^5.0.0"
