@@ -70,7 +70,6 @@ export async function bulkChangeSSLVerificationMethods({
         { zone_id, validation_method: sslVerificationMethod }
       ));
       logger.success(colors.magenta(hostname), colors.green('changed verification method'), 'to', colors.green(resp.validation_method || 'unknown'), resp.status);
-      logger.info(colors.gray('wait'), 'for 10 seconds to avoid rate limiting');
     }
   }
 };
