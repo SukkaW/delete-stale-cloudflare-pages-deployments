@@ -37,31 +37,22 @@
     "@henrygd/queue": "^1.2.0",
     "cloudflare": "^5.2.0",
     "consola": "^3.4.2",
-    "foxts": "^5.4.0"
+    "foxts": "^5.4.2"
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^13.1.0",
-    "@eslint-sukka/node": "^8.9.1",
+    "@eslint-sukka/node": "^8.10.2",
     "@swc-node/register": "^1.11.1",
-    "@swc/core": "^1.15.21",
-    "@types/node": "^22.19.17",
+    "@swc/core": "^1.15.33",
+    "@types/node": "^22.19.18",
     "bumpp": "^10.4.1",
-    "bunchee": "^6.9.4",
+    "bunchee": "^6.10.0",
     "commander": "^13.1.0",
     "date-fns": "^4.1.0",
-    "eslint": "^9.39.4",
-    "eslint-config-sukka": "^8.9.1",
-    "eslint-formatter-sukka": "^8.9.1",
-    "typescript": "^5.9.3"
+    "eslint": "^10.3.0",
+    "eslint-config-sukka": "^8.10.2",
+    "eslint-formatter-sukka": "^8.10.2",
+    "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@10.33.0",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "oxc-resolver"
-    ],
-    "overrides": {
-      "eslint>chalk": "npm:picocolors@1.1.1"
-    }
-  }
+  "packageManager": "pnpm@11.0.9"
 }

@@ -1,0 +1,8 @@
+allowBuilds:
+  '@swc/core': true
+  unrs-resolver: true
+onlyBuiltDependencies:
+  - '@swc/core'
+  - oxc-resolver
+overrides:
+  eslint>chalk: npm:picocolors@1.1.1
