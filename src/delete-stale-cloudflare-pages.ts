@@ -125,12 +125,12 @@ export async function deleteStaleCloudflarePagesDeployments({
       }
 
       if (isSuccess && successCount <= retainSuccessCount) {
-        logger.info(`${project_name} ${gray(`(skip first ${retainSuccessCount} succeed)`)} ${key}`);
+        logger.info(`${project_name} ${gray(`(skip recent ${retainSuccessCount} succeed)`)} ${key}`);
         continue;
       }
 
       if (isFailed && failedCount <= retainFailedCount) {
-        logger.info(`${project_name} ${gray(`(skip first ${retainFailedCount} failed)`)} ${key}`);
+        logger.info(`${project_name} ${gray(`(skip recent ${retainFailedCount} failed)`)} ${key}`);
         continue;
       }
 
