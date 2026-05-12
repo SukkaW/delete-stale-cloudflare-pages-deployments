@@ -35,7 +35,7 @@
   "license": "MIT",
   "dependencies": {
     "@henrygd/queue": "^1.2.0",
-    "cloudflare": "^5.2.0",
+    "cloudflare": "^6.1.0",
     "consola": "^3.4.2",
     "foxts": "^5.4.2"
   },
@@ -44,7 +44,7 @@
     "@eslint-sukka/node": "^8.10.2",
     "@swc-node/register": "^1.11.1",
     "@swc/core": "^1.15.33",
-    "@types/node": "^22.19.18",
+    "@types/node": "^22.19.19",
     "bumpp": "^10.4.1",
     "bunchee": "^6.10.0",
     "commander": "^13.1.0",
@@ -54,5 +54,5 @@
     "eslint-formatter-sukka": "^8.10.2",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@11.0.9"
+  "packageManager": "pnpm@11.1.0"
 }

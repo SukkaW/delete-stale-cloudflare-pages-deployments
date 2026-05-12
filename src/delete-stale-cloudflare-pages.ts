@@ -52,11 +52,13 @@ export async function deleteStaleCloudflarePagesDeployments({
   const startTimtstamp = start.getTime();
 
   // TODO: https://github.com/cloudflare/cloudflare-typescript/issues/2680
+  // TODO: https://github.com/cloudflare/cloudflare-typescript/issues/2757
   // Before that is fixed, manually fire request with proper type to get all deployments
-  for await (const project of await client.getAPIList(
+  // @ts-expect-error -- cloudflare types their library wrong, this is accepted type
+  for await (const project of await client.getAPIList<Cloudflare.Pages.Deployment, V4PagePaginationArray<Cloudflare.Pages.Project>>(
     `/accounts/${account_id}/pages/projects`,
     ProjectMultiPage,
-    { query: { page: 1 } }
+    { query: { page: 1 } } // this is required to get the nextPageInfo right
   )) {
     if (!project.name) {
       logger.warn('Skipping project without name:', project.id);
@@ -70,7 +72,8 @@ export async function deleteStaleCloudflarePagesDeployments({
 
     // TODO: https://github.com/cloudflare/cloudflare-typescript/issues/2680
     // Before that is fixed, manually fire request with proper type to get all deployments
-    for await (const deployment of await client.getAPIList(
+    // @ts-expect-error -- cloudflare types their library wrong, this is accepted type
+    for await (const deployment of await client.getAPIList<Cloudflare.Pages.Deployment, DeploymentsMultiPage>(
       `/accounts/${account_id}/pages/projects/${project.name}/deployments`,
       DeploymentsMultiPage,
       { query: { page: 1 } } // this is required to get the nextPageInfo right
