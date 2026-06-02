@@ -72,7 +72,6 @@ export async function deleteStaleCloudflarePagesDeployments({
 
     // TODO: https://github.com/cloudflare/cloudflare-typescript/issues/2680
     // Before that is fixed, manually fire request with proper type to get all deployments
-    // @ts-expect-error -- cloudflare types their library wrong, this is accepted type
     for await (const deployment of await client.getAPIList<Cloudflare.Pages.Deployment, DeploymentsMultiPage>(
       `/accounts/${account_id}/pages/projects/${project.name}/deployments`,
       DeploymentsMultiPage,
