@@ -41,7 +41,7 @@ export async function bulkChangeSSLVerificationMethods({
     zone_id
   });
 
-  const editQueue = newQueue(1, 5, 60 * 1000); // only one can happen at a time, 5 per minutes
+  const editQueue = newQueue(1, 4, 60 * 1000); // only one can happen at a time, 5 per minutes
 
   for (const verification of verifications) {
     // @ts-expect-error -- hostname exists
