@@ -30,7 +30,8 @@ export async function bulkChangeSSLVerificationMethods({
   const client = new Cloudflare({
     apiEmail: cloudflareEmail,
     apiKey: cloudflareApiKey,
-    apiToken: cloudflareApiToken
+    apiToken: cloudflareApiToken,
+    fetch
   });
 
   const logger = createConsola({
