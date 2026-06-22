@@ -35,24 +35,24 @@
   "license": "MIT",
   "dependencies": {
     "@henrygd/queue": "^1.2.0",
-    "cloudflare": "^6.3.0",
+    "cloudflare": "^6.4.0",
     "consola": "^3.4.2",
-    "foxts": "^5.4.2"
+    "foxts": "^5.5.1"
   },
   "devDependencies": {
     "@commander-js/extra-typings": "^13.1.0",
-    "@eslint-sukka/node": "^8.10.4",
+    "@eslint-sukka/node": "^8.12.2",
     "@swc-node/register": "^1.11.1",
-    "@swc/core": "^1.15.40",
-    "@types/node": "^22.19.19",
+    "@swc/core": "^1.15.41",
+    "@types/node": "^22.20.0",
     "bumpp": "^10.4.1",
-    "bunchee": "^6.10.0",
+    "bunchee": "^6.11.0",
     "commander": "^13.1.0",
     "date-fns": "^4.4.0",
-    "eslint": "^10.4.1",
-    "eslint-config-sukka": "^8.10.4",
-    "eslint-formatter-sukka": "^8.10.4",
+    "eslint": "^10.5.0",
+    "eslint-config-sukka": "^8.12.2",
+    "eslint-formatter-sukka": "^8.12.2",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@11.5.0"
+  "packageManager": "pnpm@11.8.0"
 }
